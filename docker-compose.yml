@@ -1,0 +1,54 @@
+# version: "3.8"
+
+services:
+  # ---------- 关系型数据库 ----------
+  postgres:
+    image: postgres:16
+    container_name: mta-postgres
+    environment:
+      POSTGRES_USER: mta_user
+      POSTGRES_PASSWORD: mta_password
+      POSTGRES_DB: mta_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - pg_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U mta_user -d mta_db"]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+
+  # ---------- 向量数据库 ----------
+  qdrant:
+    image: qdrant/qdrant:latest
+    container_name: mta-qdrant
+    ports:
+      - "6333:6333"   # REST API
+      # - "6334:6334"   # gRPC（可选）
+    volumes:
+      - qdrant_data:/qdrant/storage
+    healthcheck:
+      test: ["CMD-SHELL", "wget -qO- http://localhost:6333/healthz || exit 1"]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+
+  # ---------- 缓存 & 限流 ----------
+  redis:
+    image: redis:7
+    container_name: mta-redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+
+volumes:
+  pg_data:
+  qdrant_data:
+  redis_data:
