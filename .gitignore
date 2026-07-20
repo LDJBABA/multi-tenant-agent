@@ -7,6 +7,7 @@ build/
 venv/
 .venv/
 
+
 # 环境变量（重要！）
 .env
 
@@ -25,3 +26,11 @@ Thumbs.db
 
 # 向量数据库数据
 qdrant_storage/
+
+# 文档
+docs/
+
+# Superpowers
+.superpowers/
+
+操作文档.md
