@@ -36,19 +36,22 @@ async def load_tenant_tools(db: AsyncSession, tenant_id: str) -> list:
 async def run_agent(db: AsyncSession, tenant_id: str, question: str) -> str:
     """加载租户工具，执行 Agent"""
     tools = await load_tenant_tools(db, tenant_id)
-    
+
     if not tools:
         return "当前没有可用的工具，请联系管理员配置。"
-    
+
     logger.info(f"Agent 加载 {len(tools)} 个工具: {[(t.name, t.description) for t in tools]}")
     logger.info(f"Agent 输入: {question}")
 
     llm = get_llm("mimo")
-    agent = create_agent(llm, tools)
+    agent = create_agent(
+        llm, tools
+        )
+
+    result = await agent.ainvoke(
+        {"messages": [{"role": "user", "content": question}]},
+        config={"callbacks": [StdOutCallbackHandler()]},
     
-    result = await agent.ainvoke({
-        "messages": [{"role": "user", "content": question}]
-    },config={"callbacks": [StdOutCallbackHandler()]}
     )
-    
+
     return result["messages"][-1].content
