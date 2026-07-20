@@ -1,5 +1,5 @@
 import httpx
-from langchain_core.tools import tool
+from langchain_core.tools import StructuredTool, tool
 import logging
 
 logger = logging.getLogger(__name__)
@@ -21,8 +21,7 @@ def create_dynamic_tool(config: dict):
             headers["X-API-Key"] = auth_config.get("api_key", "")
         return headers
     
-    @tool
-    def dynamic_tool(**kwargs) -> str:
+    def tool_func(**kwargs) -> str:
         """{description}"""
         try:
             response = httpx.request(
@@ -37,7 +36,9 @@ def create_dynamic_tool(config: dict):
             logger.error(f"工具 {name} 调用失败: {e}")
             return f"工具调用失败: {str(e)}"
     
-    # 重命名，让 LLM 识别
-    dynamic_tool.__name__ = name
-    dynamic_tool.__doc__ = description
-    return dynamic_tool
+    # 用 StructuredTool 显式指定 name 和 description
+    return StructuredTool.from_function(
+        func=tool_func,
+        name=name,
+        description=description,
+    )

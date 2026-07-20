@@ -6,6 +6,7 @@ from app.api.v1.documents import router as documents_router
 from app.api.v1.conversations import router as conversations_router
 from app.api.v1.eval import router as eval_router
 from app.api.v1.tools import router as tools_router
+from app.api.v1.mock import router as mock_router
 from fastapi.middleware.cors import CORSMiddleware
 from app.core.config import settings
 
@@ -19,6 +20,9 @@ app.include_router(documents_router, prefix="/api/v1")
 app.include_router(conversations_router, prefix="/api/v1")
 app.include_router(eval_router, prefix="/api/v1")
 app.include_router(tools_router, prefix="/api/v1")
+app.include_router(mock_router, prefix="/api/v1")
+
+
 
 # 允许前端跨域访问
 app.add_middleware(

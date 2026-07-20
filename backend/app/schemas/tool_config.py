@@ -2,9 +2,10 @@
 工具配置接口的请求/响应数据格式
 """
 
-from pydantic import BaseModel
+from pydantic import BaseModel, field_validator
 from datetime import datetime
 from typing import Optional
+from uuid import UUID
 
 
 class ToolConfigCreate(BaseModel):
@@ -44,6 +45,11 @@ class ToolConfigResponse(BaseModel):
     created_at: datetime
 
     model_config = {"from_attributes": True}
+
+    @field_validator("id", "tenant_id", mode="before")
+    @classmethod
+    def uuid_to_str(cls, v):
+        return str(v) if isinstance(v, UUID) else v
 
 
 class ToolConfigListResponse(BaseModel):

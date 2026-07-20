@@ -4,6 +4,7 @@ from app.models.tool_config import ToolConfig
 from app.agents.tool_factory import create_dynamic_tool
 from app.integrations.llm_client import get_llm
 from langchain.agents import create_agent
+from langchain_core.callbacks import StdOutCallbackHandler
 import logging
 
 logger = logging.getLogger(__name__)
@@ -39,11 +40,15 @@ async def run_agent(db: AsyncSession, tenant_id: str, question: str) -> str:
     if not tools:
         return "当前没有可用的工具，请联系管理员配置。"
     
+    logger.info(f"Agent 加载 {len(tools)} 个工具: {[(t.name, t.description) for t in tools]}")
+    logger.info(f"Agent 输入: {question}")
+
     llm = get_llm("mimo")
     agent = create_agent(llm, tools)
     
     result = await agent.ainvoke({
         "messages": [{"role": "user", "content": question}]
-    })
+    },config={"callbacks": [StdOutCallbackHandler()]}
+    )
     
     return result["messages"][-1].content

@@ -56,13 +56,13 @@ async def ask(
         system_prompt = CUSTOMER_SERVICE_PROMPT.format(agent_name=tenant.name, context="")
         answer = await chat([
             {"role": "system", "content": system_prompt},
-            {"role": "user", "content": question},
+            {"role": "user", "content": rewritten},
         ])
     elif intent == "redirect":
         answer = "正在为您转接人工客服，请稍候..."
     elif intent == "action":
         from app.services.agent_service import run_agent
-        answer = await run_agent(db, tenant.id, question)
+        answer = await run_agent(db, tenant.id, rewritten)
     else:  # knowledge
         # # 问题 Embedding
         query_vector = await embed_query(rewritten)

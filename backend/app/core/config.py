@@ -17,7 +17,7 @@ class Settings(BaseSettings):
     # Embedding 配置
     embedding_api_key: str = ""
     embedding_base_url: str = "https://dashscope.aliyuncs.com/compatible-mode/v1"
-    embedding_model: str = "text-embedding-v3"
+    embedding_model: str = "qwen3.7-text-embedding"
 
     # LLM 配置
     llm_api_key: str = ""
