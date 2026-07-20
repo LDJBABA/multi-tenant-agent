@@ -9,6 +9,7 @@ services:
       POSTGRES_USER: mta_user
       POSTGRES_PASSWORD: mta_password
       POSTGRES_DB: mta_db
+      TZ: Asia/Shanghai
     ports:
       - "5432:5432"
     volumes:

@@ -1,0 +1,44 @@
+<h2>RAG 评估看板 - 布局方案</h2>
+<p class="subtitle">选择你偏好的布局风格</p>
+
+<div class="options">
+  <div class="option" data-choice="a" onclick="toggleSelect(this)">
+    <div class="letter">A</div>
+    <div class="content">
+      <h3>单页仪表盘</h3>
+      <p>所有信息在一个页面：顶部汇总指标卡片 + 中间指标图表 + 底部详细表格</p>
+      <div class="mockup" style="margin-top: 12px;">
+        <div class="mockup-header">评估报告</div>
+        <div class="mockup-body">
+          <div style="display: grid; grid-template-columns: 4; gap: 8px; margin-bottom: 12px;">
+            <div class="placeholder" style="padding: 8px; text-align: center;">Recall<br><strong>0.75</strong></div>
+            <div class="placeholder" style="padding: 8px; text-align: center;">MRR<br><strong>0.82</strong></div>
+            <div class="placeholder" style="padding: 8px; text-align: center;">Faithfulness<br><strong>0.91</strong></div>
+            <div class="placeholder" style="padding: 8px; text-align: center;">Relevance<br><strong>0.88</strong></div>
+          </div>
+          <div class="placeholder" style="height: 80px; margin-bottom: 8px;">图表区域</div>
+          <div class="placeholder" style="height: 120px;">详细数据表格</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="option" data-choice="b" onclick="toggleSelect(this)">
+    <div class="letter">B</div>
+    <div class="content">
+      <h3>分步骤展示</h3>
+      <p>Step 1 生成黄金集 → Step 2 执行评估 → Step 3 查看报告，每步独立页面</p>
+      <div class="mockup" style="margin-top: 12px;">
+        <div class="mockup-header">Step 3: 评估报告</div>
+        <div class="mockup-body">
+          <div style="display: flex; gap: 8px; margin-bottom: 12px;">
+            <div class="placeholder" style="padding: 4px 12px;">① 生成</div>
+            <div class="placeholder" style="padding: 4px 12px;">② 评估</div>
+            <div style="padding: 4px 12px; background: #3b82f6; color: white; border-radius: 4px;">③ 报告</div>
+          </div>
+          <div class="placeholder" style="height: 200px;">报告内容</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
